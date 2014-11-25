@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Sandbox</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+
+        <header class="flex-row">
+            <h1>Color palette mixin</h1>
+        </header>
+
+        <div role="main">
+
+            <!--<div class="flex-row">-->
+                <!--<div>-->
+                    <!--<label for="base-color">Base color</label>-->
+                    <!--<input type="text" id="base-color" name="base_color" value="#158fef"/>-->
+                    <!--<button id="update-colors">Update</button>-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <div class="flex-row-5">
+                <h3>Analogous</h3>
+
+                <a class="color-1 button">Color 1</a>
+                <a class="color-2 button">Color 2</a>
+                <a class="color-3 button">Color 3</a>
+                <a class="color-4 button">Color 4</a>
+                <a class="color-5 button">Color 5</a>
+
+            </div>
+
+            <div class="flex-row-5">
+                <h3>Monochromatic</h3>
+
+                <a class="monochrome-1 button">Monochrome 1</a>
+                <a class="monochrome-2 button">Monochrome 2</a>
+                <a class="monochrome-3 button">Monochrome 3</a>
+                <a class="monochrome-4 button">Monochrome 4</a>
+                <a class="monochrome-5 button">Monochrome 5</a>
+
+            </div>
+
+            <div class="flex-row-3">
+                <h3>Triad</h3>
+
+                <a class="triad-1 button">Triad 1</a>
+                <a class="triad-2 button">Triad 2</a>
+                <a class="triad-3 button">Triad 3</a>
+
+            </div>
+
+            <div class="flex-row-4">
+                <h3>Cross-complementary</h3>
+
+                <h4>Buttons</h4>
+
+                <a class="complementary-1 button">complementary 1</a>
+                <a class="complementary-2 button">complementary 2</a>
+                <a class="complementary-3 button">complementary 3</a>
+                <a class="complementary-4 button">complementary 4</a>
+
+                <h4>Links</h4>
+
+                <a class="complementary-1 link">complementary 1</a>
+                <a class="complementary-2 link">complementary 2</a>
+                <a class="complementary-3 link">complementary 3</a>
+                <a class="complementary-4 link">complementary 4</a>
+                <!--<a class="complementary-5 button">complementary 5</a>-->
+
+            </div>
+
+            <div class="flex-row-2">
+                <h3>Custom usage</h3>
+                <div class="custom-class">Custom class from function: [background-color: get-palette-color(2, "triad");]</div>
+                <a class="custom-button">Custom button from mixin: [@include get-palette-button(4, "monochrome", #fff);]</a>
+            </div>
+
+            <div class="flex-row">
+                <h1>Typography example h1</h1>
+                <h2>Typography example h2</h2>
+                <h3>Typography example h3</h3>
+                <h4>Typography example h4</h4>
+                <h5>Typography example h5</h5>
+                <h6>Typography example h6</h6>
+
+                <p>Bacon ipsum dolor amet hamburger shankle ground round, brisket tail landjaeger frankfurter pork belly ham. Ground round venison bresaola corned beef. Pork loin fatback landjaeger kielbasa rump bresaola. Turkey andouille kevin pastrami pork loin venison short ribs bresaola tenderloin.</p>
+
+                <p>Kevin rump meatloaf ball tip sausage brisket boudin bacon. Andouille chicken porchetta ham hock, venison spare ribs frankfurter filet mignon. Shoulder pastrami tongue fatback short ribs picanha. Meatball ribeye flank, chicken picanha salami ball tip. Tenderloin doner beef ribs pastrami, bacon chuck cow.
+
+                <p>Drumstick cow biltong swine. Shoulder pork chop alcatra capicola prosciutto filet mignon porchetta salami turkey. Shank tongue prosciutto ground round pastrami, picanha salami pork loin sausage bresaola pork chop jowl jerky. Filet mignon meatball kielbasa landjaeger jowl. Shoulder pork bresaola swine kielbasa meatball filet mignon. Salami pork loin fatback beef doner picanha jowl.</p>
+            </div>
+
+        </div>
+
+        <footer class="flex-row">
+            <p>Copyleft 2014 Zing Design</p>
+        </footer>
+
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+        <script src="js/plugins.js"></script>
+        <script src="./fnd/bower_components/tinycolor/dist/tinycolor-min.js"></script>
+        <script src="js/main.js"></script>
+    </body>
+</html>

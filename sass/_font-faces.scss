@@ -1,0 +1,182 @@
+// Set defaults in parameters...
+@mixin generate-font-face($font-name, $sizes:false, $font-folder-name:false, $font-file-prefix: false, $font-file-suffix: "webfont", $font-name-separator:"-", $dir-separator:"/", $formats:(woff2, ttf, svg, eot)) {
+
+  $web-font-folder-name: to-lower-case($font-name);
+
+  @if $font-folder-name != false {
+    $web-font-folder-name: $font-folder-name;
+  }
+
+  // default font-file prefix
+  $web-font-file-name-prefix: to-lower-case($font-name);
+
+  @if $font-file-prefix != false {
+    $web-font-file-name-prefix: $font-file-prefix;
+  }
+
+  // Default (most commonly used sizes)
+  $font-sizes:  (light,   200, normal),
+                (regular, 400, normal),
+                (bold,    700, normal);
+
+  @if $sizes != false {
+    $font-sizes: $sizes;
+  }
+  
+  // Build font file name
+
+  $all-formats: (woff, woff2, ttf, otf, svg);
+
+  $eot-file: false;
+
+  @each $type, $weight, $style in $font-sizes {
+
+    @if NULL == $weight {
+      @if light == $type {
+        $weight: 200;
+      }
+      @else if regular == $type {
+        $weight: 400;
+      }
+      @else if bold == $type {
+        $weight: 700;
+      }
+    }
+
+    @if NULL == $style {
+      $style: normal;
+    }
+
+    $font-full-file-name: $web-font-folder-name + $dir-separator + $type + $dir-separator + $web-font-file-name-prefix + $font-name-separator + $type + $font-name-separator + $font-file-suffix;
+
+    $web-font-files: ();
+
+    $font-1: NULL;
+    $font-2: NULL;
+    $font-3: NULL;
+
+    @each $format in $all-formats {
+
+      $full-name: $font-full-file-name + ".#{$format}";
+
+      @if index($formats, $format) != false {
+        @if woff == $format or woff2 == $format {
+          $font-1: $full-name;
+        }
+        @else if ttf == $format or otf == $format{
+          $font-2: $full-name;
+        }
+        @else if svg == $format {
+          $font-3: $full-name;
+        }
+      }
+
+    }
+
+    @if index($formats, eot) {
+      $eot-file: "#{$font-full-file-name}.eot";
+    }
+
+    @include font-face(
+      $font-name,
+      font-files( $font-1, $font-2, $font-3 ),
+      $eot-file,
+      $weight,
+      $style
+    );
+
+  }
+}
+
+// Retrieve font family
+$sans-serif-fallback: "Helvetica Neue", Helvetica, Arial, sans-serif !default;
+$serif-fallback: Georgia, sans-serif !default;
+$sans-serif-default: true !default;
+
+@mixin get-font-family($font-name, $font-weight:false, $sans-serif:$sans-serif-default, $font-style:false ) {
+  $fallback: $sans-serif-fallback;
+
+  @if not $sans-serif {
+    $fallback: $serif-fallback;
+  }
+
+  font-family: $font-name, $fallback;
+
+  @if $font-weight {
+    font-weight: $font-weight;
+  }
+
+  @if $font-style {
+    font-style: $font-style;
+  }
+}
+
+@include generate-font-face("proxima-nova");
+
+$caviar-dreams-font-name: "Caviar Dreams";
+$caviar-dreams-folder-name: "caviar-dreams";
+
+@each $folder-name, $file-name, $weight, $style in (
+                (bold, Bold, 700),
+                (bolditalic, BoldItalic, 700, italic),
+                (italic, Italic, 400, italic),
+                (regular, false, false)) {
+
+  @if not $weight {
+    $weight: 400;
+  }
+
+  @if not $style {
+    $style: normal;
+  }
+
+  @if $file-name {
+    $file-name: "_#{$file-name}";
+  }
+  @else {
+    $file-name: '';
+  }
+
+  $full-folder-name: "#{$caviar-dreams-folder-name}/caviardreams_#{$folder-name}_macroman";
+  $full-file-name: "#{$full-folder-name}/CaviarDreams#{$file-name}-webfont";
+
+  @include font-face(
+    $caviar-dreams-font-name,
+    font-files( "#{$full-file-name}.woff",
+                "#{$full-file-name}.ttf",
+                "#{$full-file-name}.svg"),
+    "#{$full-file-name}.eot",
+    $weight,
+    $style
+  );
+}
+
+// Regular
+//@include font-face($caviar-dreams-font-name, font-files(
+//                "caviar-dreams/caviardreams_macroman/CaviarDreams-webfont.woff",
+//                "caviar-dreams/caviardreams_macroman/CaviarDreams-webfont.ttf",
+//                "caviar-dreams/caviardreams_macroman/CaviarDreams-webfont.svg"),
+//        "caviar-dreams/caviardreams_macroman/CaviarDreams-webfont.eot", 400, normal);
+//
+//// Bold
+//@include font-face($caviar-dreams-font-name, font-files(
+//                "caviar-dreams/caviardreams_bold_macroman/CaviarDreams_Bold-webfont.woff",
+//                "caviar-dreams/caviardreams_bold_macroman/CaviarDreams_Bold-webfont.ttf",
+//                "caviar-dreams/caviardreams_bold_macroman/CaviarDreams_Bold-webfont.svg"),
+//        "caviar-dreams/caviardreams_bold_macroman/CaviarDreams_Bold-webfont.eot", 700, normal);
+//
+//// Italic
+//@include font-face($caviar-dreams-font-name, font-files(
+//                "caviar-dreams/caviardreams_italic_macroman/CaviarDreams_Italic-webfont.woff",
+//                "caviar-dreams/caviardreams_italic_macroman/CaviarDreams_Italic-webfont.ttf",
+//                "caviar-dreams/caviardreams_italic_macroman/CaviarDreams_Italic-webfont.svg"),
+//        "caviar-dreams/caviardreams_italic_macroman/CaviarDreams_Italic-webfont.eot", 400, italic);
+//
+//// Bold Italic
+//@include font-face($caviar-dreams-font-name, font-files(
+//                "caviar-dreams/caviardreams_bolditalic_macroman/CaviarDreams_BoldItalic-webfont.woff",
+//                "caviar-dreams/caviardreams_bolditalic_macroman/CaviarDreams_BoldItalic-webfont.ttf",
+//                "caviar-dreams/caviardreams_bolditalic_macroman/CaviarDreams_BoldItalic-webfont.svg"),
+//        "caviar-dreams/caviardreams_bolditalic_macroman/CaviarDreams_BoldItalic-webfont.eot", 700, italic);
+
+

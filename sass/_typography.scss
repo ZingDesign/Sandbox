@@ -1,0 +1,159 @@
+$my-base-font-size: 16px !default;
+
+// --------------------------------------------
+// Font size generator
+// --------------------------------------------
+
+// Scaling Variables
+$golden:           1.618;
+$minor-second:     1.067;
+$major-second:     1.125;
+$minor-third:      1.2;
+$major-third:      1.25;
+$perfect-fourth:   1.333;
+$augmented-fourth: 1.414;
+$perfect-fifth:    1.5;
+$minor-sixth:      1.6;
+$major-sixth:      1.667;
+$minor-seventh:    1.778;
+$major-seventh:    1.875;
+$octave:           2;
+$major-tenth:      2.5;
+$major-eleventh:   2.667;
+$major-twelfth:    3;
+$double-octave:    4;
+
+$modular-scale-ratio: $perfect-fourth !default;
+$modular-scale-base: 16px !default;
+
+@function modular-scale($increment, $value: $modular-scale-base, $ratio: $modular-scale-ratio) {
+  $v1: nth($value, 1);
+  $v2: nth($value, length($value));
+  $value: $v1;
+
+  // scale $v2 to just above $v1
+  @while $v2 > $v1 {
+    $v2: ($v2 / $ratio); // will be off-by-1
+  }
+  @while $v2 < $v1 {
+    $v2: ($v2 * $ratio); // will fix off-by-1
+  }
+
+  // check AFTER scaling $v2 to prevent double-counting corner-case
+  $double-stranded: $v2 > $v1;
+
+  @if $increment > 0 {
+    @for $i from 1 through $increment {
+      @if $double-stranded and ($v1 * $ratio) > $v2 {
+        $value: $v2;
+        $v2: ($v2 * $ratio);
+      } @else {
+        $v1: ($v1 * $ratio);
+        $value: $v1;
+      }
+    }
+  }
+
+  @if $increment < 0 {
+    // adjust $v2 to just below $v1
+    @if $double-stranded {
+      $v2: ($v2 / $ratio);
+    }
+
+    @for $i from $increment through -1 {
+      @if $double-stranded and ($v1 / $ratio) < $v2 {
+        $value: $v2;
+        $v2: ($v2 / $ratio);
+      } @else {
+        $v1: ($v1 / $ratio);
+        $value: $v1;
+      }
+    }
+  }
+
+  @return $value;
+}
+
+//$golden: 1.61803398875;
+$grow-factor: 0.1 !default;
+$default-ratio: $golden !default;
+
+$small-width: upper-bound($small-range);
+$medium-width: upper-bound($medium-range);
+$large-width: upper-bound($large-range);
+
+// Base
+$base-font-size: 16;
+
+$mobile-small: modular-scale(-1, $base-font-size, $golden);
+$mobile-paragraph: modular-scale(0, $base-font-size, $golden);
+$mobile-sub-heading: modular-scale(1, $base-font-size, $golden);
+$mobile-main-heading: modular-scale(2, $base-font-size, $golden);
+
+//$tablet-base: $mobile-base * $grow-factor;
+//$desktop-base: $tablet-base * $grow-factor;
+//$base-font-size: $rem-base !default;
+
+@function get-line-height($font-size) {
+  @return ($golden * $font-size) / $base-font-size;
+}
+
+body {
+  line-height: $golden;
+}
+
+small {
+  @include rem-font( $mobile-small );
+}
+
+p {
+  @include rem-font( $mobile-paragraph );
+}
+
+h2 {
+  @include rem-font( $mobile-sub-heading );
+}
+
+h1 {
+  @include rem-font( $mobile-main-heading );
+}
+
+
+//@mixin generate-font-sizes($ratio:$golden) {
+//  $heading-mobile-size: $base-font-size;
+//
+//  $mobile-headings: ();
+//
+//  // Headings
+//  $increment: -1;
+//  @for $i from 0 through 6 {
+//  }
+//
+//  @debug $mobile-headings;
+//}
+
+// Implementation
+//@include generate-font-sizes();
+
+
+// --------------------------------------------------
+
+// Example font implementation
+$heading-font: "proxima-nova" !default;
+$sub-heading-font: "Caviar Dreams" !default;
+
+//@include generate-font-face($heading-font);
+//@include generate-font-face($sub-heading-font, $sizes:(Bold, BoldItalic, Italic) );
+//@include generate-font-face($font-name:"Alice", $sizes:(light,normal));
+
+h1, h2, h3 {
+  @include get-font-family($heading-font);
+}
+
+$minor-heading-font: $caviar-dreams-font-name !default;
+
+//h4, h5, h6 {
+//  // Here we set the font-weight manually,
+//  // and specify that it’s a serif font:
+//  @include get-font-family($minor-heading-font, $font-weight:700, $sans-serif: false, $font-style:italic);
+//}
