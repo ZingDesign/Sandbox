@@ -90,16 +90,8 @@ $mobile-paragraph: modular-scale(0, $base-font-size, $golden);
 $mobile-sub-heading: modular-scale(1, $base-font-size, $golden);
 $mobile-main-heading: modular-scale(2, $base-font-size, $golden);
 
-//$tablet-base: $mobile-base * $grow-factor;
-//$desktop-base: $tablet-base * $grow-factor;
-//$base-font-size: $rem-base !default;
-
 @function get-line-height($font-size) {
   @return ($golden * $font-size) / $base-font-size;
-}
-
-body {
-  line-height: $golden;
 }
 
 small {
@@ -119,41 +111,14 @@ h1 {
 }
 
 
-//@mixin generate-font-sizes($ratio:$golden) {
-//  $heading-mobile-size: $base-font-size;
-//
-//  $mobile-headings: ();
-//
-//  // Headings
-//  $increment: -1;
-//  @for $i from 0 through 6 {
-//  }
-//
-//  @debug $mobile-headings;
-//}
-
-// Implementation
-//@include generate-font-sizes();
-
-
 // --------------------------------------------------
 
 // Example font implementation
 $heading-font: "proxima-nova" !default;
 $sub-heading-font: "Caviar Dreams" !default;
 
-//@include generate-font-face($heading-font);
-//@include generate-font-face($sub-heading-font, $sizes:(Bold, BoldItalic, Italic) );
-//@include generate-font-face($font-name:"Alice", $sizes:(light,normal));
-
 h1, h2, h3 {
   @include get-font-family($heading-font);
 }
 
 $minor-heading-font: $caviar-dreams-font-name !default;
-
-//h4, h5, h6 {
-//  // Here we set the font-weight manually,
-//  // and specify that it’s a serif font:
-//  @include get-font-family($minor-heading-font, $font-weight:700, $sans-serif: false, $font-style:italic);
-//}
