@@ -1,0 +1,111 @@
+// STRIP UNIT
+// It strips the unit of measure and returns it
+@function strip-unit($num) {
+  @return $num / ($num * 0 + 1);
+}
+
+// Media queries mixin
+
+// Default widths
+$default-medium:    768px !default;
+$small-max:         $default-medium - 1px;
+$default-large:     960px !default;
+$medium-max:        $default-large - 1px;
+$default-x-large:   1280px !default;
+$large-max:         $default-x-large - 1px;
+$default-xx-large:  1920px !default;
+$x-large-max:       $default-xx-large - 1px;
+
+//Aliases
+$default-tablet:    $default-medium;
+$default-desktop:   $default-large;
+
+$default-query:     "only screen" !default;
+
+@function get-query($min, $max:false, $dimension:"width", $default:$default-query) {
+
+  @if not $min and not $max {
+    @warn "Minimum or maximum pixel value required!";
+    @return false;
+  }
+
+  $range: "";
+
+  @if $min and unitless($min) {
+    $min: $min * 1px;
+  }
+
+  @if $max and unitless($max) {
+    $max: $max * 1px;
+  }
+
+  @if $min {
+    $range: "(min-#{$dimension}:#{$min})";
+  }
+
+  @if $max {
+    $range: "#{$range} and (max-#{$dimension}:#{$max})";
+  }
+
+  @return "#{$default} and #{$range}";
+}
+
+$small-only:          get-query(false, $small-max);
+
+$default-medium-up:   get-query($default-medium) !default;
+$default-large-up:    get-query($default-large) !default;
+$default-x-large-up:  get-query($default-x-large) !default;
+$default-xx-large-up: get-query($default-xx-large) !default;
+
+@mixin media($query,
+  $medium-up:   $default-medium-up,
+  $large-up:    $default-large-up,
+  $x-large-up:  $default-x-large-up,
+  $xx-large-up: $default-xx-large-up,
+  $min-value:   false,
+  $max-value:   false
+) {
+
+  $query: unquote($query);
+
+  // Human-friendly media query names :)
+  @if index( (s, small, small-up, mobile-up), $query) {
+    @media only screen {
+      @content;
+    }
+  }
+  @else if index(small-only, mobile-only) {
+    @media #{$small-only} {
+      @content;
+    }
+  }
+  @else if index( (m, medium, medium-up, tablet-up), $query) {
+    @media #{$medium-up} {
+      @content;
+    }
+  }
+  @else if index( (l, large, large-up, desktop-up), $query) {
+    @media #{$large-up} {
+      @content;
+    }
+  }
+  @else if index( (xl, x-large, x-large-up, large-desktop-up), $query) {
+    @media #{$x-large-up} {
+      @content;
+    }
+  }
+  @else if index( (xxl, xx-large, xx-large-up), $query) {
+    @media #{$xx-large-up} {
+      @content;
+    }
+  }
+  @else if custom == $query {
+    $custom-query: get-query($min-value, $max-value);
+    @media #{$custom-query} {
+      @content;
+    }
+  }
+  @else {
+    @error "Invalid media query: #{$query}";
+  }
+}

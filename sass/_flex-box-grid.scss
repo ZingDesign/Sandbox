@@ -15,11 +15,11 @@ $elements: '& > *' !default;
 $flex-flow: row wrap !default;
 $align-items: stretch !default;
 
-$center: false !default;
+$center: true !default;
 
 $max-width: $row-width !default;
 
-$stripe: odd !default;
+$stripe: false !default; // Can be [odd|even|false]
 $stripe-color: #eee !default;
 
 $vertical-padding: rem-calc(40px);

@@ -1,12 +1,10 @@
-$legacy-support: ie8 ie9 !default;
+$global-legacy-support: ie8 ie9 !default;
 // This is the default html and body font-size for the base rem value.
 $rem-base: 16px !default;
-$line-height-base: 1.8 !default;
 
 // REM calculation courtesy of Zurb Foundation :)
 
 // CONVERT TO REM
-
 @function convert-to-rem($value, $base-value: $rem-base)  {
   $value: strip-unit($value) / strip-unit($base-value) * 1rem;
   @if ($value == 0rem) { $value: 0; } // Turn 0rem into 0
@@ -14,24 +12,6 @@ $line-height-base: 1.8 !default;
 }
 
 // REM CALC
-
-// New Syntax, allows to optionally calculate on a different base value to counter compounding effect of rem's.
-// Call with 1, 2, 3 or 4 parameters, 'px' is not required but supported:
-//
-//   rem-calc(10 20 30px 40);
-//
-// Space delimited, if you want to delimit using comma's, wrap it in another pair of brackets
-//
-//   rem-calc((10, 20, 30, 40px));
-//
-// Optionally call with a different base (eg: 8px) to calculate rem.
-//
-//   rem-calc(16px 32px 48px, 8px);
-//
-// If you require to comma separate your list
-//
-//   rem-calc((16px, 32px, 48), 8px);
-
 @function rem-calc($values, $base-value: $rem-base) {
   $max: length($values);
 
@@ -45,9 +25,7 @@ $line-height-base: 1.8 !default;
 }
 
 // Simple REM font values
-// The idea is you put in pixel values (safe, familiar)
-// and you get rem values (strange, mysterious)
-@mixin rem-font($pixel-value, $line-height:false) {
+@mixin rem-font($pixel-value, $base:$rem-base, $legacy-support: $global-legacy-support) {
 
   @if unitless($pixel-value) {
     $pixel-value: $pixel-value * 1px;
@@ -58,34 +36,5 @@ $line-height-base: 1.8 !default;
     font-size: $pixel-value;
   }
 
-  font-size: rem-calc($pixel-value);
-
-  @if $line-height and 'px' == unit($line-height) {
-    line-height: $line-height / $pixel-value;
-  }
+  font-size: rem-calc($pixel-value, $base);
 }
-
-// Example implementation
-
-// With units, specific line-height
-p {
-  @include rem-font(18px, 26px);
-}
-
-// Outputs:
-// p {
-//   font-size: 18px;
-//   font-size: 1.125rem;
-//   line-height: 1.44444;
-// }
-
-// Without units, default line-height
-blockquote {
-  @include rem-font(24);
-}
-
-// Outputs:
-// blockquote {
-//   font-size: 24px;
-//   font-size: 1.5rem;
-// }

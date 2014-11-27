@@ -1,0 +1,91 @@
+@media only screen {
+  /* line 135, ../sass/_typography.scss */
+  html, body {
+    font-size: 14.58px;
+  }
+}
+@media only screen and (min-width: 768px) {
+  /* line 135, ../sass/_typography.scss */
+  html, body {
+    font-size: 16.2px;
+  }
+}
+@media only screen and (min-width: 960px) {
+  /* line 135, ../sass/_typography.scss */
+  html, body {
+    font-size: 18px;
+  }
+}
+@media only screen and (min-width: 1280px) {
+  /* line 135, ../sass/_typography.scss */
+  html, body {
+    font-size: 19.8px;
+  }
+}
+@media only screen and (min-width: 1920px) {
+  /* line 135, ../sass/_typography.scss */
+  html, body {
+    font-size: 21.78px;
+  }
+}
+/* line 144, ../sass/_typography.scss */
+body {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+/* line 149, ../sass/_typography.scss */
+h1, h2, h3, h4, h5, h6, p, li, dt, dd, blockquote, td, th {
+  line-height: 1.618;
+}
+
+/* line 154, ../sass/_typography.scss */
+a, span, strong, em, b, i, input, select, textarea, button {
+  font-size: inherit;
+  line-height: inherit;
+}
+
+/* line 159, ../sass/_typography.scss */
+small, figcaption, sup, sub {
+  font-size: 80%;
+}
+
+/* line 173, ../sass/_typography.scss */
+blockquote {
+  font-size: 29.124px;
+}
+
+/* line 177, ../sass/_typography.scss */
+h1 {
+  font-size: 47.12263px;
+  font-size: 2.61792rem;
+}
+
+/* line 181, ../sass/_typography.scss */
+h2 {
+  font-size: 29.124px;
+  font-size: 1.618rem;
+}
+
+/* line 185, ../sass/_typography.scss */
+h3 {
+  font-size: 26.2116px;
+  font-size: 1.4562rem;
+}
+
+/* line 189, ../sass/_typography.scss */
+h4 {
+  font-size: 23.59044px;
+  font-size: 1.31058rem;
+}
+
+/* line 193, ../sass/_typography.scss */
+h5 {
+  font-size: 21.2314px;
+  font-size: 1.17952rem;
+}
+
+/* line 197, ../sass/_typography.scss */
+h6 {
+  font-size: 19.10826px;
+  font-size: 1.06157rem;
+}

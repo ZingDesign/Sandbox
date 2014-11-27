@@ -1,8 +1,13 @@
-$my-base-font-size: 16px !default;
+// Muck around with the font-size and scale here:
+$my-base-font-size: 18px;
+$default-scale: 0.9;
 
 // --------------------------------------------
-// Font size generator
+// Typography generator
 // --------------------------------------------
+
+// Modular scale, many thanks to Bourbon
+// See: http://bourbon.io/docs/#modular-scale
 
 // Scaling Variables
 $golden:           1.618;
@@ -73,52 +78,125 @@ $modular-scale-base: 16px !default;
 
   @return $value;
 }
+$my-base-font-size: 16px !default;
 
-//$golden: 1.61803398875;
-$grow-factor: 0.1 !default;
+// Set the defaults
+
+$default-scale: 0.9 !default;
+$small-font-factor: 80% !default;
+
+// Set minimum readable size
+$minimum-font-size: 12px !default;
+
+$default-base: $my-base-font-size !default;
+
+// Desktop first approach :-/
+
+// Smaller sizes
+$medium-base: $default-base * $default-scale;
+$small-base: $medium-base * $default-scale;
+
+// Larger sizes
+$x-large-base: $default-base + ( (1 - $default-scale) * $default-base );
+$xx-large-base: $x-large-base + ( (1 - $default-scale) * $x-large-base );
+
 $default-ratio: $golden !default;
 
-$small-width: upper-bound($small-range);
-$medium-width: upper-bound($medium-range);
-$large-width: upper-bound($large-range);
+$default-media-queries: (($small-base,    small-up),
+                        ($medium-base,    medium-up),
+                        ($default-base,   large-up),
+                        ($x-large-base,   x-large-up),
+                        ($xx-large-base,  xx-large-up)) !default;
 
-// Base
-$base-font-size: 16;
+// Helper functions
 
-$mobile-small: modular-scale(-1, $base-font-size, $golden);
-$mobile-paragraph: modular-scale(0, $base-font-size, $golden);
-$mobile-sub-heading: modular-scale(1, $base-font-size, $golden);
-$mobile-main-heading: modular-scale(2, $base-font-size, $golden);
+// Helper function for calculating heading sizes
+@function minor-heading($size, $base, $scale) {
+  $heading-size: $scale * $size;
 
-@function get-line-height($font-size) {
-  @return ($golden * $font-size) / $base-font-size;
+  // Set base as the smallest heading size
+  // Make sure the heading is larger than or equal to the base
+  @return max($heading-size, $base);
 }
 
-small {
-  @include rem-font( $mobile-small );
+@mixin generate-typography(
+  $base:$default-base,
+  $scale:$default-scale,
+  $media-queries:$default-media-queries,
+  $ratio:$default-ratio,
+  $line-height-ratio:$default-ratio
+) {
+
+  // Generate base font
+  @each $base, $query in $media-queries {
+
+    @include media($query) {
+
+      html, body {
+        font-size: max($minimum-font-size, $base);
+      }
+    }
+  }
+
+  // Basic style defaults
+
+  body {
+    font-family: Helvetica, Arial, sans-serif;
+  }
+
+  // Set line-height to golden ratio
+  h1, h2, h3, h4, h5, h6, p, li, dt, dd, blockquote, td, th {
+    line-height: $line-height-ratio;
+  }
+
+  // Inline elements inherit font size from parent
+  a, span, strong, em, b, i, input, select, textarea, button {
+    font-size: inherit;
+    line-height: inherit;
+  }
+
+  small, figcaption, sup, sub {
+    font-size: $small-font-factor;
+  }
+
+  // Use the modular scale to generate our main headings
+  $default-heading-1: modular-scale(2, $base, $ratio);
+  $default-heading-2: modular-scale(1, $base, $ratio);
+
+  // Use a simple linear scale to generate minor headings
+  $default-heading-3: minor-heading($default-heading-2, $base, $scale);
+  $default-heading-4: minor-heading($default-heading-3, $base, $scale);
+  $default-heading-5: minor-heading($default-heading-4, $base, $scale);
+  $default-heading-6: minor-heading($default-heading-5, $base, $scale);
+
+  blockquote {
+    font-size: $default-heading-2;
+  }
+
+  h1 {
+    @include rem-font( $default-heading-1, $base );
+  }
+
+  h2 {
+    @include rem-font( $default-heading-2, $base );
+  }
+
+  h3 {
+    @include rem-font( $default-heading-3, $base );
+  }
+
+  h4 {
+    @include rem-font( $default-heading-4, $base );
+  }
+
+  h5 {
+    @include rem-font( $default-heading-5, $base );
+  }
+
+  h6 {
+    @include rem-font( $default-heading-6, $base );
+  }
 }
 
-p {
-  @include rem-font( $mobile-paragraph );
-}
-
-h2 {
-  @include rem-font( $mobile-sub-heading );
-}
-
-h1 {
-  @include rem-font( $mobile-main-heading );
-}
-
-
-// --------------------------------------------------
-
-// Example font implementation
-$heading-font: "proxima-nova" !default;
-$sub-heading-font: "Caviar Dreams" !default;
-
-h1, h2, h3 {
-  @include get-font-family($heading-font);
-}
-
-$minor-heading-font: $caviar-dreams-font-name !default;
+// Call the mixin (example)
+@include generate-typography();

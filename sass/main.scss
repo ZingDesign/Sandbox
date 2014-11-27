@@ -31,3 +31,23 @@
 // More specific stylesheets
 
 // IE and Print
+
+
+
+
+
+
+
+
+
+// --------------------------------------------------
+
+// Example font implementation
+$heading-font: "proxima-nova" !default;
+$sub-heading-font: "Caviar Dreams" !default;
+
+h1, h2, h3 {
+  @include get-font-family($heading-font);
+}
+
+$minor-heading-font: $caviar-dreams-font-name !default;
