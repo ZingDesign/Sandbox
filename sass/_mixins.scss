@@ -7,20 +7,27 @@
 // Media queries mixin
 
 // Default widths
-$default-medium:    768px !default;
-$small-max:         $default-medium - 1px;
-$default-large:     960px !default;
-$medium-max:        $default-large - 1px;
-$default-x-large:   1280px !default;
-$large-max:         $default-x-large - 1px;
-$default-xx-large:  1920px !default;
-$x-large-max:       $default-xx-large - 1px;
-
-//Aliases
-$default-tablet:    $default-medium;
-$default-desktop:   $default-large;
+// Reference: http://gs.statcounter.com/#resolution-ww-monthly-201310-201410
 
 $default-query:     "only screen" !default;
+
+$default-medium:    768px !default;
+$small-max:         $default-medium - 1px;
+
+$default-large:     960px !default;
+$medium-max:        $default-large - 1px;
+
+$default-x-large:   1280px !default;
+$large-max:         $default-x-large - 1px;
+
+$default-xx-large:   1366px !default;
+$x-large-max:        $default-xx-large - 1px;
+
+$default-xxx-large:  1920px !default;
+
+// Human-friendly Aliases
+$default-tablet:    $default-medium;
+$default-desktop:   $default-large;
 
 @function get-query($min, $max:false, $dimension:"width", $default:$default-query) {
 
@@ -50,20 +57,22 @@ $default-query:     "only screen" !default;
   @return "#{$default} and #{$range}";
 }
 
-$small-only:          get-query(false, $small-max);
+$small-only:            get-query(false, $small-max);
 
-$default-medium-up:   get-query($default-medium) !default;
-$default-large-up:    get-query($default-large) !default;
-$default-x-large-up:  get-query($default-x-large) !default;
-$default-xx-large-up: get-query($default-xx-large) !default;
+$default-medium-up:     get-query($default-medium) !default;
+$default-large-up:      get-query($default-large) !default;
+$default-x-large-up:    get-query($default-x-large) !default;
+$default-xx-large-up:   get-query($default-xx-large) !default;
+$default-xxx-large-up:  get-query($default-xxx-large) !default;
 
 @mixin media($query,
-  $medium-up:   $default-medium-up,
-  $large-up:    $default-large-up,
-  $x-large-up:  $default-x-large-up,
-  $xx-large-up: $default-xx-large-up,
-  $min-value:   false,
-  $max-value:   false
+  $medium-up:     $default-medium-up,
+  $large-up:      $default-large-up,
+  $x-large-up:    $default-x-large-up,
+  $xx-large-up:   $default-xx-large-up,
+  $xxx-large-up:  $default-xxx-large-up,
+  $min-value:     false,
+  $max-value:     false
 ) {
 
   $query: unquote($query);
@@ -96,6 +105,11 @@ $default-xx-large-up: get-query($default-xx-large) !default;
   }
   @else if index( (xxl, xx-large, xx-large-up), $query) {
     @media #{$xx-large-up} {
+      @content;
+    }
+  }
+  @else if index( (xxxl, xxx-large, xxx-large-up), $query) {
+    @media #{$xxx-large-up} {
       @content;
     }
   }

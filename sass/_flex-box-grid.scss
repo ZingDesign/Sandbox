@@ -1,47 +1,62 @@
 // Flex box grid
 
-$flex-column-margin: 2% !default;
-$flex-column-padding: 2% !default;
-
 $min-column: 2 !default;
 $max-column: 12 !default;
 
-$min-grow: 1 !default;
-$max-grow: ($max-column / 2) !default;
-
-$headings: headings(all) !default;
+// Slow selector by default
 $elements: '& > *' !default;
 
-$flex-flow: row wrap !default;
+$flex-flow-mobile: row wrap !default;
+$flex-flow-medium-up: row !default;
 $align-items: stretch !default;
 
-$center: true !default;
+$default-gutter: 15px;
 
-$max-width: $row-width !default;
+$max-width-medium: $default-medium - 2 * $default-gutter;
+$max-width-large: $row-width !default;
 
-$stripe: false !default; // Can be [odd|even|false]
+
+$stripe: even !default; // Stripe can be [odd|even|false]
 $stripe-color: #eee !default;
 
-$vertical-padding: rem-calc(40px);
+$vertical-padding: rem-calc(20px);
+
+$main-content-width-factor-medium: 0.65 !default;
+$aside-width-factor-medium: 1 - $main-content-width-factor-medium;
+$main-content-small-factor-medium: 1 - 2 * $aside-width-factor-medium !default;
+
+$main-content-width-factor-large: 0.75 !default;
+$aside-width-factor-large: 1 - $main-content-width-factor-large;
+$main-content-small-factor-large: 1 - 2 * $aside-width-factor-large !default;
+
+// Tablet max-widths
+$aside-width-medium: $aside-width-factor-medium * $max-width-medium;
+$main-content-width-medium: $main-content-width-factor-medium * $max-width-medium;
+$main-content-small-width-medium: $main-content-small-factor-medium * $max-width-medium;
+
+// Desktop max-widths
+$aside-width-large: $aside-width-factor-large * $max-width-large;
+$main-content-width-large: $main-content-width-factor-large * $max-width-large;
+$main-content-small-width-large: $main-content-small-factor-large * $max-width-large;
 
 // Inefficient selector for all elements with flex-row
 // Set to full-width for mobile/small devices
 [class*="flex-row"] {
   display: flex;
-  flex: 1 100%;
-  flex-flow: $flex-flow;
-  align-items: $align-items;
+  flex: 0 0 100%;
+  flex-flow: $flex-flow-mobile;
 
-  #{$elements} {
-    display: flex;
-    flex: 0 0 100%;
-    padding: $flex-column-padding;
-    margin: $flex-column-margin / 2;
+  @if $align-items {
+    align-items: $align-items;
   }
 
-  @if ($center) {
-    max-width: $max-width;
-    margin: 0 auto;
+  #{$elements} {
+
+    margin: {
+      left: $default-gutter;
+      right: $default-gutter;
+    }
+
   }
 
   @if $stripe {
@@ -59,96 +74,98 @@ $vertical-padding: rem-calc(40px);
 
 }
 
-//@for $i from $min-column through $max-column {
-
-
-
-//  .flex-row-#{$i} {
-//
-//  }
-//}
-
-@media #{$medium-up} {
-
-  // Make all headings full width
-
-  [class*="flex-row"] {
-
-    & > #{$headings} {
-      flex: 0 0 100%;
-//      margin: 0;
-      margin-top: 0.2rem;
-      margin-bottom: 0.5rem;
-      padding: 0;
-//      margin: $flex-column-margin / 2;
-    }
-
-  }
+@include media(medium-up) {
 
   @for $i from $min-column through $max-column {
 
     .flex-row-#{$i} {
 
-      //        & > #{$headings} {
-      //          flex: 0 0 100%;
-      //        }
-
       #{$elements} {
-        // On medium-up, show half as many columns per row as large-up
-        margin: $flex-column-margin / 2;
-        flex: 0 0 (( 100% / ceil($i / 2) ) - $flex-column-margin);
+        width: $max-width-medium / $i;
       }
 
+    }
+  }
+
+  [class*="flex-row"] {
+    flex-flow: $flex-flow-medium-up;
+
+    #{$elements} {
+      margin: 0;
+      padding: {
+        left: $default-gutter;
+        right: $default-gutter;
+      }
+
+      &:first-child {
+        margin-left: auto;
+      }
+
+      &:last-child {
+        margin-right: auto;
+      }
+    }
+
+    .main {
+      width: $main-content-width-medium;
+    }
+
+    aside {
+      width: $aside-width-medium;
+    }
+
+    [class*="flex-row"] {
+      #{$elements} {
+
+        &:first-child {
+          margin-left: 0;
+          padding-left: 0;
+        }
+
+        &:last-child {
+          margin-right: 0;
+          padding-right: 0;
+        }
+      }
+    }
+
+  }
+
+  .flex-row-3 {
+    .main {
+      width: $main-content-small-width-medium;
     }
   }
 }
 
-@media #{$large-up} {
+@include media(large-up) {
 
   @for $i from $min-column through $max-column {
-
-    $current-width: (( 100% / $i ) - $flex-column-margin);
 
     .flex-row-#{$i} {
 
       #{$elements} {
-        // On large-up, show the number of columns specified in the class
-        margin: $flex-column-margin / 2;
-        flex: 0 0 $current-width;
-
-        @for $j from $min-grow through $max-grow {
-          $grow-width: ($j + 1) * $current-width;
-          $shrink-width: $current-width / ($j + 1);
-
-          @if $grow-width > 100% {
-            $new-width: 100%;
-          }
-
-          &.grow-#{$j} {
-            flex: 0 0 $grow-width;
-          }
-
-          @if $shrink-width > 0% {
-
-            &.shrink-#{$j} {
-              flex: 0 0 $shrink-width;
-            }
-
-          }
-        }
+        width: $max-width-large / $i;
       }
 
     }
+  }
 
-    [class*="flex-row"] {
+  [class*="flex-row"] {
 
-      #{$elements} {
-        // Grow 'n shrink classes
+    .main {
+      width: $main-content-width-large;
+    }
 
-        &.shrink-#{$i} {
-          flex-shrink: $i;
-        }
-      }
+    aside {
+      width: $aside-width-large;
+    }
+
+  }
+
+  .flex-row-3 {
+    .main {
+      width: $main-content-small-width-large;
     }
   }
 }

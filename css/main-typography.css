@@ -1,29 +1,29 @@
 @media only screen {
-  /* line 135, ../sass/_typography.scss */
+  /* line 136, ../sass/_typography.scss */
   html, body {
     font-size: 14.58px;
   }
 }
 @media only screen and (min-width: 768px) {
-  /* line 135, ../sass/_typography.scss */
+  /* line 136, ../sass/_typography.scss */
   html, body {
     font-size: 16.2px;
   }
 }
 @media only screen and (min-width: 960px) {
-  /* line 135, ../sass/_typography.scss */
+  /* line 136, ../sass/_typography.scss */
   html, body {
     font-size: 18px;
   }
 }
 @media only screen and (min-width: 1280px) {
-  /* line 135, ../sass/_typography.scss */
+  /* line 136, ../sass/_typography.scss */
   html, body {
     font-size: 19.8px;
   }
 }
-@media only screen and (min-width: 1920px) {
-  /* line 135, ../sass/_typography.scss */
+@media only screen and (min-width: 1366px) {
+  /* line 136, ../sass/_typography.scss */
   html, body {
     font-size: 21.78px;
   }

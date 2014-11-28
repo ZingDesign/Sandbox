@@ -10,10 +10,15 @@ $(document).ready(function(){
         return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
     }
 
-    var baseColourElement = $('.color-1')
-        ,baseColour = baseColourElement.css('background-color')
-        ,baseColourContrast = baseColourElement.css('color');
+    if( $('.color-1').length ) {
 
-    $('header').append('<h2 style="color: '+baseColour+'; background-color: '+baseColourContrast+'">Base color: ' + rgb2hex( baseColour ) + '</h2>\n');
+        var baseColourElement = $('.color-1')
+            ,baseColour = baseColourElement.css('background-color')
+            ,baseColourContrast = baseColourElement.css('color');
+
+        $('header').append('<h2 style="color: '+baseColour+'; background-color: '+baseColourContrast+'">Base color: ' + rgb2hex( baseColour ) + '</h2>\n');
+
+    }
+
 
 });

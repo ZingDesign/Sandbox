@@ -1,0 +1,34 @@
+@charset "UTF-8";
+
+// Custom settings
+@import "settings";
+
+// Import Compass
+@import "compass";
+
+// Fonts first
+@import "font-faces";
+
+// Normalize (packaged in Foundation)
+@import "normalize";
+
+// Foundation components
+@import "foundation/functions";
+//@import "foundation/components/type";
+//@import "foundation/components/grid";
+@import "foundation/components/block-grid";
+//@import "foundation/components/buttons";
+//@import "foundation/components/forms";
+
+// Import custom files
+
+// General
+@import "mixins";
+@import "flex-box-grid";
+//@import "color-palette";
+//@import "rem-font";
+//@import "typography";
+
+// More specific stylesheets
+
+// IE and Print

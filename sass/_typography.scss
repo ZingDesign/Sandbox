@@ -124,7 +124,8 @@ $default-media-queries: (($small-base,    small-up),
   $scale:$default-scale,
   $media-queries:$default-media-queries,
   $ratio:$default-ratio,
-  $line-height-ratio:$default-ratio
+  $line-height-ratio:$default-ratio,
+  $min-width: false
 ) {
 
   // Generate base font

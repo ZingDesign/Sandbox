@@ -372,5 +372,5 @@ $primary-color: #A9141A !default;
 
 .custom-button {
   padding: 20px;
-  @include get-palette-button(4, "color");
+  @include get-palette-button(4, "complementary");
 }
